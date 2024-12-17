@@ -1,0 +1,54 @@
+<form [formGroup]="loginForm">
+  <h5 class="mb-2 text-2xl font-bold tracking-tight text-center text-white">
+    LOGIN
+  </h5>
+  <div>
+    <label for="email" class="block mb-2 text-sm font-medium text-white ">
+      Correo
+    </label>
+    <input type="email" formControlName="email" id="email" class="bg-gray-50
+      border border-gray-300 text-gray-900 text-sm rounded-lg
+      focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+      placeholder="ejemplo@ejemplo.com"  />
+  </div>
+  <div>
+    <label for="pass" class="block mb-2 text-sm font-medium text-white pt-4">
+      Contraseña
+    </label>
+    <input type="password" formControlName="password" id="pass" 
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm
+      rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full
+      p-2.5 " placeholder="*********"/>
+  </div>
+  <div class="flex items-center justify-between pt-2">
+    <div class="flex items-center">
+      <input type="checkbox" formControlName="remember" id="remember_me"
+        class="text-purple-600 rounded border-gray-300" />
+      <label for="remember_me" class="ml-2 block text-sm text-white">
+        Recuérdame
+      </label>
+    </div>
+    <!-- <div class="text-sm">
+      <a href="#" class="text-purple-400 hover:underline">
+        ¿Olvidaste tu contraseña?
+      </a>
+    </div> -->
+  </div>
+  
+  <div class="flex items-center justify-center pt-6">
+    <button type="submit" (click)="onLogin()" class="text-white
+      bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4
+      focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5
+      text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700
+      dark:focus:ring-purple-900">
+      Iniciar sesión
+    </button>
+  </div>
+  <p class="text-sm text-center text-white">
+    ¿No tienes cuenta?
+    <span (click)="switchMode()" class="text-purple-400 hover:underline
+      cursor-pointer">
+      Regístrate
+    </span>
+  </p>
+</form>

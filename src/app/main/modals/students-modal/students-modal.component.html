@@ -1,0 +1,73 @@
+<div id="students-modal" tabindex="-1" aria-hidden="true"
+  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0
+  z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)]
+  max-h-full">
+  <div class="relative p-4 w-full max-w-xl max-h-full">
+      <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 md:p-5 border-b
+          rounded-t">
+          <h3 class="text-xl font-semibold text-gray-900 ">
+            Alumnos de la clase {{clase}}
+          </h3>
+          <button (click)="closeModal()" type="button" class="text-gray-400
+            bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg
+            text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" >
+            <svg class="w-3 h-3" aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7
+                  7l6-6M7 7l-6 6"/>
+            </svg>
+            <span class="sr-only">Cerrar</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+      <div class="p-4 md:p-5 space-y-4">
+          <!-- Lista de alumnos -->
+        <ul>
+          @for (student of students; track $index) {
+            <li class="flex justify-between items-center border-b
+            border-gray-200 py-2">
+              <p>{{student.name + ' ' + student.last_name }}</p>
+              <button (click)="setStudent(student)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5
+                  text-red-600" viewBox="0 0 1024 1024">
+                  <path fill="currentColor" d="M512 64a448 448 0 1 1 0 896a448
+                    448 0 0 1 0-896zm0 393.664L407.936 353.6a38.4 38.4 0 1
+                    0-54.336 54.336L457.664 512L353.6 616.064a38.4 38.4 0 1 0
+                    54.336 54.336L512 566.336L616.064 670.4a38.4 38.4 0 1 0
+                    54.336-54.336L566.336 512L670.4 407.936a38.4
+                    38.4 0 1 0-54.336-54.336L512 457.664z"/>
+                  </svg>
+              </button>
+            </li>
+          }
+        </ul>
+      </div>
+        <!-- Modal footer -->
+      <div class="flex items-center justify-end p-4 md:p-5 border-t
+        border-gray-200 rounded-b">
+        <button type="button" class="text-white bg-delete-color
+          hover:bg-p-hover focus:ring-4 focus:outline-none
+          focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5
+          text-center">
+          Dar de baja a todos
+        </button>
+        <button type="button" (click)="closeModal()" class="py-2.5 px-5 ms-3
+          text-sm font-medium text-gray-900 focus:outline-none bg-white
+          rounded-lg border border-purple-200 hover:bg-gray-100  focus:z-10
+          focus:ring-4 focus:ring-gray-100">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-confirm-modal2
+[modal]="confirmModal"
+[title]="'¿Desea dar de baja al estudiante '+student.name+' de la clase '+clase+'?'"
+(confirm)="unsubscribe()"
+/>

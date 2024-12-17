@@ -1,0 +1,96 @@
+<!-- Un listado de las clases con un boton para ver mas informacion -->
+<div class="py-4 flex flex-col max-h-screen">
+
+  <div class="max-w-full overflow-auto max-h-full p-6 bg-white border border-gray-200
+    rounded-lg shadow">
+    <h2 class="text-xl font-bold">
+      Clases
+    </h2>
+     <div class="overflow-auto">
+       <ul class="mt-4">
+          @for (class of classes; track $index) {
+            <li class="flex justify-between items-center border-b
+              border-gray-200 py-2">
+              <div class="flex w-full">
+                <!-- @if (user.is_teacher) { -->
+                  <button (click)="selectQR(class.code, class._id)" class="flex
+                    h-auto w-8 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" 
+                      viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h4.01V2H2v6h2V4zm0 12H2v6h6.01v-2H4v-4zm16 4h-4v2h6v-6h-2v4zM16 4h4v4h2V2h-6v2z"/><path fill="currentColor" d="M5 11h6V5H5zm2-4h2v2H7zM5 19h6v-6H5zm2-4h2v2H7zM19 5h-6v6h6zm-2 4h-2V7h2zm-3.99 4h2v2h-2zm2 2h2v2h-2zm2 2h2v2h-2zm0-4h2v2h-2z"/></svg>
+                  </button>
+                <!-- } -->
+                <span class="flex h-auto w-full text-lg ml-3 items-center">
+                  {{class.name}}
+                </span>
+                <div class="flex gap-1">
+                  <a [routerLink]="['/inicio/listas', class._id]" type="button"
+                    class="text-white bg-view-color hover:bg-p-hover focus:ring-4
+                      focus:ring-violet-100 font-medium rounded-lg text-sm px-4 py-2
+                      mb-2 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                      viewBox="0 0 24 24"><g fill="none"><path stroke="currentColor"
+                      stroke-width="2" d="M12 5c-5.444 0-8.469 4.234-9.544 6.116c-.221.386-.331.58-.32.868c.013.288.143.476.402.852C3.818 14.694 7.294 19 12 19c4.706 0 8.182-4.306 9.462-6.164c.26-.376.39-.564.401-.852c.012-.288-.098-.482-.319-.868C20.47 9.234 17.444 5 12 5Z"/><circle cx="12" cy="12" r="4" fill="currentColor"/></g></svg>
+                  </a>
+                  @if (isTeacher()) {
+                    <button type="button" (click)="editClass(class)"
+                      class="text-white bg-edit-color hover:bg-p-hover
+                        focus:ring-4 focus:ring-violet-100 font-medium rounded-lg
+                        text-sm px-4 py-2 mb-2 focus:outline-none">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                        viewBox="0 0 24 24"><g fill="none" stroke="currentColor"
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1"/>
+                        <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3l8.385-8.415zM16 5l3 3"/></g></svg>
+                    </button>
+                    <button type="button" (click)="selectDeleteClass(class._id, class.name)"
+                      class="text-white bg-delete-color hover:bg-p-hover
+                      focus:ring-4 focus:ring-violet-100 font-medium rounded-lg
+                      text-sm px-4 py-2 mb-2 focus:outline-none">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                        viewBox="0 0 24 24"><path fill="none" stroke="currentColor"
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 7h16m-10 4v6m4-6v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg>
+                    </button>
+                  }
+                </div>
+              </div>
+            </li>
+          }
+       </ul>
+     </div>
+  </div>
+
+  <button (click)="addClass()" class="m-6 bg-primary hover:bg-p-hover
+    text-white font-bold py-2 px-4 rounded">
+    Agregar Clase
+  </button>
+</div>
+  @if (isTeacher()) {
+    <app-class-modal
+    [modal]="modal"
+    [classData]="classToEdit"
+    [isEdit]="isEdit"
+    (update)="ngOnInit()"
+    />
+
+    <app-qr-generator-modal
+    [modal]="QRmodal"
+    [code]="getCode()"
+    />
+
+    <app-confirm-modal
+    [modal]="confirmModal"
+    [title]="'¿Estás seguro de eliminar la clase ' + classToDelete.name + '?'"
+    (confirm)="deleteClass()"
+    />
+  }@else {
+    <app-qr-reader-modal
+    [modal]="modal"
+    (readed)="readQR($event)"
+    />
+      
+    <app-qr-assist-reader
+    [modal]="qrReaderModal"
+    (readed)="getAssist($event)"
+    />
+  }

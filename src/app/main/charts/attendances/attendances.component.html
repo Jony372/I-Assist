@@ -1,0 +1,51 @@
+<div class="">
+  <label for="class-to-chart" class="block mb-2 text-sm font-medium text-gray-900">
+    Clase
+  </label>
+  <select name="class-to-chart" (change)="updateChart()" [(ngModel)]="classId"
+    id="class-to-chart" class="bg-gray-50 border border-gray-300 text-gray-900
+    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+    @for (clase of classes; track $index) {
+      <option value="{{clase._id}}" [selected]="$index == 0? true:false">
+        {{clase.name}}
+      </option>
+    }
+  </select>
+  <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [dataLabels]="chartOptions.dataLabels"
+      [plotOptions]="chartOptions.plotOptions"
+      [yaxis]="chartOptions.yaxis"
+      [legend]="chartOptions.legend"
+      [fill]="chartOptions.fill"
+      [stroke]="chartOptions.stroke"
+      [tooltip]="chartOptions.tooltip"
+      [xaxis]="chartOptions.xaxis"
+    ></apx-chart>
+</div>
+<div>
+  <label for="class-to-chart" class="block mb-2 text-sm font-medium text-gray-900">
+    Alumnos
+  </label>
+  <select name="class-to-chart" (change)="onSelectStudent()" [(ngModel)]="studentId"
+    id="class-to-chart" class="bg-gray-50 border border-gray-300 text-gray-900
+    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+    <option value="todos">Todos</option>
+    @for (student of students; track $index) {
+      <option [value]="student._id">
+        {{student.last_name + " " + student.name}}
+      </option>
+    }
+  </select>
+  <div class="grid gap-2 lg:grid-cols-2">
+    @for (student of students; track $index) {
+
+      <app-attendances-porcent
+      [classId]="classId"
+      [studentId]="student._id"
+      [studentName]="student.last_name + ' ' + student.name"
+      />
+    }
+  </div>
+</div>

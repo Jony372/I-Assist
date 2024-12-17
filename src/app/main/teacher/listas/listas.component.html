@@ -1,0 +1,134 @@
+<div class="flex flex-col max-h-screen py-4">
+  <h3 class="text-5xl font-bold text-gray-900 text-center mb-5">
+    {{clase.name || ""}}
+  </h3>
+  <div class="flex mb-3 gap-3">
+    <div class="flex items-end justify-center">
+      <button (click)="initAttendance()" class="flex
+        h-auto w-8 items-center mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7"
+        viewBox="0 0 24 24"><path fill="none" stroke="currentColor"
+        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M4 7h16m-10 4v6m4-6v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg>
+      </button>
+    </div>
+    <div>
+      <label for="start-date" class="block mb-2 text-sm font-medium text-gray-900">Fecha inicial</label>
+      <input [(ngModel)]="filterDate[0]" type="date" id="start-date" name="start-date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "/>
+    </div>
+    <div>
+      <label for="end-date" class="block mb-2 text-sm font-medium text-gray-900">Fecha final</label>
+      <input [(ngModel)]="filterDate[1]" type="date" id="end-date" name="end-date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
+    </div>
+    <div class="w-full flex items-end">
+      <button (click)="filter()" type="button" class="text-white
+        bg-delete-color hover:bg-p-hover focus:ring-4 focus:outline-none
+        focus:ring-purple-300 font-medium rounded-lg text-sm inline-flex
+        items-center px-5 py-2.5 text-center">
+        Filtrar
+      </button>
+    </div>
+  </div>
+  <div class="relative overflow-auto">
+    <table id="attendance-table" class="w-full text-sm text-left rtl:text-right
+      text-gray-500 ">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            Nombre del alumno
+          </th>
+          @for (att of attendances; track $index) {
+            @if (isTeacher()) {
+              <th (click)="selectAttendance(att._id, att.day)" scope="col"
+                class="cursor-pointer hover:bg-purple-100 px-2 py-3 text-center">
+                <p class="transform -rotate-45">{{att.day}}</p>
+              </th>
+            }@else {
+              <th scope="col" class="px-2 py-3 text-center">
+                <p class="transform -rotate-45">{{att.day}}</p>
+              </th>
+            }
+          }
+        </tr>
+      </thead>
+        <tbody>
+          @for (student of students; track $index; let i = $index) {
+            <tr class="bg-white border-b ">
+              <th  scope="row" class="px-6 py-4 font-medium text-gray-900
+                whitespace-nowrap ">
+                {{student.last_name + ' ' + student.name}}
+              </th>
+              @for (att of getAttendances(student._id); track $index) {
+                <td (click)="select($index, att._id)" class="py-4 whitespace-nowrap text-black border-l
+                  text-center {{bgColor(att.attendance)}}">
+                  {{att.attendance}}
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+    </table>
+  </div>
+  
+  @if (isTeacher()) {
+      <div class="flex justify-center w-full mt-4 gap-2">
+          <button (click)="studentsModal.show()" class="bg-white rounded-full
+            p-4 shadow-md shadow-gray-500 hover:bg-view-color">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12"
+                viewBox="0 0 24 24"><path fill="none" stroke="currentColor"
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 20c0-1.742-1.67-3.223-4-3.773M15 20c0-2.21-2.686-4-6-4s-6
+                1.79-6 4m12-7a4 4 0 0 0 0-8m-6 8a4 4 0 1 1 0-8a4 4 0 0 1 0 8Z"/>
+              </svg>
+          </button>
+          <button (click)="QRmodal.show()" class="bg-white rounded-full p-4
+            shadow-md shadow-gray-500 hover:bg-view-color">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12"
+                viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h4.01V2H2v6h2V4zm0
+                12H2v6h6.01v-2H4v-4zm16 4h-4v2h6v-6h-2v4zM16 4h4v4h2V2h-6v2z"/>
+                <path fill="currentColor" d="M5 11h6V5H5zm2-4h2v2H7zM5 19h6v-6H5zm2-4h2v2H7zM19
+                5h-6v6h6zm-2 4h-2V7h2zm-3.99 4h2v2h-2zm2 2h2v2h-2zm2 2h2v2h-2zm0-4h2v2h-2z"/>
+              </svg>
+          </button>
+          <button (click)="exportTable()" class="bg-white rounded-full p-4
+            shadow-md shadow-gray-500 hover:bg-view-color">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12"
+                viewBox="0 0 48 48"><mask id="ipSExcel0"><g fill="none"
+                stroke-linecap="round" stroke-width="4"><path stroke="#fff"
+                stroke-linejoin="round" d="M8 15V6a2 2 0 0 1 2-2h28a2 2 0 0 1 2
+                2v36a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-9"/><path stroke="#fff"
+                d="M31 15h3m-6 8h6m-6 8h6"/><path fill="#fff" stroke="#fff"
+                stroke-linejoin="round" d="M4 15h18v18H4z"/><path stroke="#000"
+                stroke-linejoin="round" d="m10 21l6 6m0-6l-6 6"/></g></mask>
+                <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSExcel0)"/>
+              </svg>
+          </button>
+      </div>
+  
+      <app-qr-generator-modal
+      [modal]="QRmodal"
+      [code]="clase.assist_code || ''"
+      [tittle]="false"
+      />
+  
+      <app-confirm-modal
+      [modal]="confirmModal"
+      [title]="'¿Desea marcar asistencia a todos los alumnos en la fecha '
+        + toAttendance.date + '?'"
+      (confirm)="setAllAssist()"
+      />
+
+      <app-students-modal
+      [modal]="studentsModal"
+      [students]="students"
+      [clase]="clase.name || ''"
+      [clase_id]="clase._id || ''"
+      (finish)="ngOnInit()"
+      />
+
+      <app-set-assist
+      [modal]="attendanceModal"
+      (setAttendance)="setAttendance($event)"
+      />
+    }
+</div>

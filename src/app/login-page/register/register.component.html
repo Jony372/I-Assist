@@ -1,0 +1,84 @@
+<form [formGroup]="registerForm">
+
+  <h5 class="mb-2 text-2xl font-bold tracking-tight text-center text-white">
+    REGISTRO
+  </h5>
+  <div>
+    <label for="first_name" class="block mb-2 text-sm font-medium text-white">
+      Nombre(s)
+    </label>
+    <input type="text" id="first_name" formControlName="name" class="bg-gray-50
+      border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+      focus:border-blue-500 block w-full p-2.5 " placeholder="Nombre"/>
+  </div>
+  <div>
+    <label for="last_name" class="block mb-2 text-sm font-medium text-white pt-2">
+      Apellidos
+    </label>
+    <input type="text" id="last_name" formControlName="last_name" class="bg-gray-50
+      border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+      focus:border-blue-500 block w-full p-2.5 " placeholder="Apellidos"  />
+  </div>
+  <div>
+    <label for="birthdate" class="block mb-2 text-sm font-medium text-white pt-2">
+      Fecha de nacimiento
+    </label>
+    <input type="date" id="birthdate" formControlName="birthdate" class="bg-gray-50 border
+      border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+      focus:border-blue-500 block w-full p-2.5 "/>
+  </div>
+  <div>
+    <label for="email" class="block mb-2 text-sm font-medium text-white pt-2">
+      Correo electrónico
+    </label>
+    <input type="email" id="email" formControlName="email" class="bg-gray-50 border
+      border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+      focus:border-blue-500 block w-full p-2.5 " placeholder="ejemplo@gmail.com" />
+  </div>
+  <div class="flex justify-center gap-4">
+    <div class="w-full">
+      <label for="no_control" class="block mb-2 text-sm font-medium text-white pt-2">
+        No. de control
+      </label>
+      <input type="number" id="no_control" formControlName="control_number" class="bg-gray-50
+        border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+        focus:border-blue-500 block w-full p-2.5 " placeholder="000000000"/>
+    </div>
+    <div class="w-full">
+      <label for="phone" class="block mb-2 text-sm font-medium text-white pt-2">
+        No. de teléfono
+      </label>
+      <input type="number" id="phone" formControlName="phone" class="bg-gray-50 border
+        border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+        focus:border-blue-500 block w-full p-2.5 " placeholder="3481234567"  />
+    </div>
+  </div>
+  <div>
+    <label for="password" class="block mb-2 text-sm font-medium text-white pt-2">
+      Contraseña
+    </label>
+    <input type="password" id="password" formControlName="password" class="bg-gray-50
+      border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+      focus:border-blue-500 block w-full p-2.5 " placeholder="*********"  />
+  </div>
+  <div class="flex items-center justify-between pt-2">
+    <div class="flex items-center">
+      <input type="checkbox" formControlName="is_teacher" id="is_teacher" class="text-purple-600
+        rounded border-gray-300"/>
+      <label for="is_teacher" class="ml-2 block text-white">Perfil de maestro</label>
+    </div>
+  </div>
+  
+  <div class="flex items-center justify-center pt-2">
+    <button type="button" (click)="onRegister()" class="text-white bg-purple-700
+      hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300
+      font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600
+      dark:hover:bg-purple-700 dark:focus:ring-purple-900">Registrarse</button>
+  </div>
+</form>
+<p class="text-sm text-center text-white">
+  ¿Ya tienes cuenta?
+  <span (click)="switchMode()" class="text-purple-400 hover:underline cursor-pointer">
+    Inicia sesión
+  </span>
+</p>

@@ -1,0 +1,17 @@
+<div class="background flex flex-col items-center justify-center">
+  <div class="transition duration-75 max-h-[90%] px-6 py-3 overflow-y-auto
+    bg-transparent border max-w-md border-purple-200 rounded-lg shadow
+    backdrop-blur-lg w-full">
+    @if (isLogin) {
+      <app-login
+      (onSwitchMode)="onSwitchMode()"
+      (login)="action($event)"
+      ></app-login>
+    }@else {
+      <app-register
+      (onSwitchMode)="onSwitchMode()"
+      (register)="action($event)"
+      ></app-register>
+    }
+  </div>  
+</div>
