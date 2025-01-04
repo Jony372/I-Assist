@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export const API_URL = 'http://localhost:3000/api';
+export const API_URL = 'https://i-assist-back.onrender.com/api';
 export const TOAST = Swal.mixin({
   toast: true,
   position: 'top-end',
